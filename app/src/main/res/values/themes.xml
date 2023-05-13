@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.NewsApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorSecondary">@color/blue_dark</item>
+        <item name="textAppearanceBody1">@color/black</item>
+        <item name="textAppearanceBody2">@color/grey_dark</item>
+        <item name="backgroundColor">@color/grey</item>
+        <item name="backgroundTint">@color/grey_light</item>
+        <item name="strokeColor">#D7E3F7</item>
+    </style>
+
+    <style name="Theme.NewsApp" parent="Base.Theme.NewsApp" />
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+                <item name="android:color">#D7E3F7</item>
+        <item name="android:height">28dp</item>
+    </style>
+</resources>
