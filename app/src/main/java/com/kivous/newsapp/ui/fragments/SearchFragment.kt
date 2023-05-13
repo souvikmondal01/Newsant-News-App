@@ -1,10 +1,12 @@
 package com.kivous.newsapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kivous.newsapp.adapters.NewsAdapter
 import com.kivous.newsapp.adapters.NewsListener
 import com.kivous.newsapp.common.Resource
+import com.kivous.newsapp.common.Utils
 import com.kivous.newsapp.common.Utils.gone
 import com.kivous.newsapp.common.Utils.visible
 import com.kivous.newsapp.databinding.FragmentSearchBinding
@@ -38,8 +41,21 @@ class SearchFragment : Fragment(), NewsListener {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        val imgr = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            etSearch.requestFocus()
+            cvBackArrow.setOnClickListener {
+                activity?.onBackPressed()
+            }
+            Utils.clearEdittext(etSearch, cvClear)
+        }
 
 
         var job: Job? = null
@@ -54,7 +70,6 @@ class SearchFragment : Fragment(), NewsListener {
                 }
             }
         }
-
 
         viewModel.searchNews.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -88,7 +103,6 @@ class SearchFragment : Fragment(), NewsListener {
         super.onDestroyView()
         _binding = null
     }
-
 
     override fun onArticleClick(holder: NewsAdapter.ViewHolder, article: Article) {
 
