@@ -1,6 +1,5 @@
 package com.kivous.newsapp.ui.viewmodels
 
-import android.app.DownloadManager.Query
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,12 +7,17 @@ import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.model.Article
 import com.kivous.newsapp.model.NewsResponse
 import com.kivous.newsapp.repositories.NewsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class NewsViewModel(
+@HiltViewModel
+class NewsViewModel
+@Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
+
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsPage = 1

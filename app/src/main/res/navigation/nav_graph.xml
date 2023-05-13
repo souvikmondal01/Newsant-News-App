@@ -49,9 +49,5 @@
         android:id="@+id/articleFragment"
         android:name="com.kivous.newsapp.ui.fragments.ArticleFragment"
         android:label="fragment_article"
-        tools:layout="@layout/fragment_article" >
-        <argument
-            android:name="article"
-            app:argType="com.kivous.newsapp.model.Article" />
-    </fragment>
+        tools:layout="@layout/fragment_article" />
 </navigation>

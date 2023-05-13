@@ -1,18 +1,19 @@
 package com.kivous.newsapp.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kivous.newsapp.R
 import com.kivous.newsapp.common.Constants.KEY
 import com.kivous.newsapp.common.Utils.gone
-
 import com.kivous.newsapp.databinding.FragmentArticleBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArticleFragment : Fragment() {
     private var _binding: FragmentArticleBinding? = null
     private val binding get() = _binding!!
