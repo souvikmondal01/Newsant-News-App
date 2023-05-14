@@ -1,7 +1,7 @@
 package com.kivous.newsapp.model
 
 data class NewsResponse(
-    val articles: ArrayList<Article>,
+    val articles: MutableList<Article>,
     val status: String,
     val totalResults: Int
 )

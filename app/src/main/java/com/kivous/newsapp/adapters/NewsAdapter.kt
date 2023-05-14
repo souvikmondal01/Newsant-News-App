@@ -49,6 +49,7 @@ class NewsAdapter(private val listener: NewsListener) :
                 ivSave.setOnClickListener {
                     listener.onSaveClick(article)
                 }
+                count.text = "${position + 1}"
             }
             itemView.apply {
                 Glide.with(this).load(article.urlToImage).into(binding.ivArticle)
