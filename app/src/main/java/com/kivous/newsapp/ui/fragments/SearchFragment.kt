@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AbsListView
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kivous.newsapp.adapters.NewsAdapter
@@ -19,6 +17,7 @@ import com.kivous.newsapp.adapters.NewsListener
 import com.kivous.newsapp.common.Constants
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.common.Utils
+import com.kivous.newsapp.common.Utils.toast
 import com.kivous.newsapp.databinding.FragmentSearchBinding
 import com.kivous.newsapp.model.Article
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
@@ -73,7 +72,7 @@ class SearchFragment : Fragment(), NewsListener {
             }
         }
 
-        viewModel.searchNews.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.searchNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -89,9 +88,8 @@ class SearchFragment : Fragment(), NewsListener {
 
                 is Resource.Error -> {
                     hideProgressBar()
-                    response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
-                            .show()
+                    response.message?.let {
+                        toast(it)
                     }
                 }
 
@@ -99,7 +97,7 @@ class SearchFragment : Fragment(), NewsListener {
                     showProgressBar()
                 }
             }
-        })
+        }
 
         adapter = NewsAdapter(this)
         binding.recyclerView.adapter = adapter

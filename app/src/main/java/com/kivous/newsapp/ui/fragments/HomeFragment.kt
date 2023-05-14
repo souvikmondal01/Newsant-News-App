@@ -2,7 +2,6 @@ package com.kivous.newsapp.ui.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ import com.kivous.newsapp.common.Constants.KEY
 import com.kivous.newsapp.common.Constants.QUERY_PAGE_SIZE
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.common.Utils.gone
+import com.kivous.newsapp.common.Utils.toast
 import com.kivous.newsapp.common.Utils.visible
 import com.kivous.newsapp.databinding.FragmentHomeBinding
 import com.kivous.newsapp.model.Article
@@ -67,11 +67,10 @@ class HomeFragment : Fragment(), NewsListener {
                     binding.pb.gone()
                     isLoading = false
                     response.message?.let {
-                        Log.d("ERR", "An error occurred: $it")
+                        toast(it)
                     }
 
                 }
-
                 is Resource.Loading -> {
                     binding.pb.visible()
                     isLoading = true
