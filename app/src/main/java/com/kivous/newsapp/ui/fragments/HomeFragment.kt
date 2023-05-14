@@ -69,8 +69,8 @@ class HomeFragment : Fragment(), NewsListener {
                     response.message?.let {
                         toast(it)
                     }
-
                 }
+
                 is Resource.Loading -> {
                     binding.pb.visible()
                     isLoading = true

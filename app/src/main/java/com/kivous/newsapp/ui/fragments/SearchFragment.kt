@@ -1,5 +1,6 @@
 package com.kivous.newsapp.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kivous.newsapp.adapters.NewsAdapter
-import com.kivous.newsapp.adapters.NewsListener
+import com.kivous.newsapp.adapters.SearchNewsAdapter
+import com.kivous.newsapp.adapters.SearchNewsListener
 import com.kivous.newsapp.common.Constants
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.common.Utils
@@ -29,11 +30,11 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(), NewsListener {
+class SearchFragment : Fragment(), SearchNewsListener {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewsViewModel by viewModels()
-    private lateinit var adapter: NewsAdapter
+    private lateinit var adapter: SearchNewsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +49,7 @@ class SearchFragment : Fragment(), NewsListener {
         imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
@@ -57,7 +59,6 @@ class SearchFragment : Fragment(), NewsListener {
             }
             Utils.clearEdittext(etSearch, cvClear)
         }
-
 
         var job: Job? = null
         binding.etSearch.addTextChangedListener { editable ->
@@ -80,9 +81,6 @@ class SearchFragment : Fragment(), NewsListener {
                         adapter.differ.submitList(newsResponse.articles.toList())
                         val totalPages = newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.searchNewsPage == totalPages
-//                        if (isLastPage) {
-//                            binding.recyclerView.setPadding(0, 0, 0, 0)
-//                        }
                     }
                 }
 
@@ -99,22 +97,16 @@ class SearchFragment : Fragment(), NewsListener {
             }
         }
 
-        adapter = NewsAdapter(this)
+        adapter = SearchNewsAdapter(this)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.addOnScrollListener(this@SearchFragment.scrollListener)
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onArticleClick(holder: NewsAdapter.ViewHolder, article: Article) {
-
-    }
-
-    override fun onSaveClick(article: Article) {
     }
 
 
@@ -134,7 +126,7 @@ class SearchFragment : Fragment(), NewsListener {
     var isLastPage = false
     var isScrolling = false
 
-    val scrollListener = object : RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
@@ -163,6 +155,9 @@ class SearchFragment : Fragment(), NewsListener {
                 isScrolling = true
             }
         }
+    }
+
+    override fun onArticleClick(holder: SearchNewsAdapter.ViewHolder, article: Article) {
     }
 
 }

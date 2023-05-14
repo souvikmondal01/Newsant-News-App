@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kivous.newsapp.databinding.ListNewsBinding
+import com.kivous.newsapp.databinding.ListSearchNewsBinding
 import com.kivous.newsapp.model.Article
 
-class NewsAdapter(private val listener: NewsListener) :
-    RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+class SearchNewsAdapter(private val listener: SearchNewsListener) :
+    RecyclerView.Adapter<SearchNewsAdapter.ViewHolder>() {
 
-    class ViewHolder(val binding: ListNewsBinding) :
+    class ViewHolder(val binding: ListSearchNewsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
 
@@ -30,7 +30,8 @@ class NewsAdapter(private val listener: NewsListener) :
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ListNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ListSearchNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -46,9 +47,6 @@ class NewsAdapter(private val listener: NewsListener) :
                 tvTitle.text = article.title
                 tvSource.text = article.source?.name
                 tvPublishAt.text = article.publishedAt
-                ivSave.setOnClickListener {
-                    listener.onSaveClick(article)
-                }
                 count.text = "${position + 1}"
             }
             itemView.apply {
@@ -62,7 +60,6 @@ class NewsAdapter(private val listener: NewsListener) :
 
 }
 
-interface NewsListener {
-    fun onArticleClick(holder: NewsAdapter.ViewHolder, article: Article)
-    fun onSaveClick(article: Article)
+interface SearchNewsListener {
+    fun onArticleClick(holder: SearchNewsAdapter.ViewHolder, article: Article)
 }
