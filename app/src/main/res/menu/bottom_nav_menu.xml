@@ -19,7 +19,7 @@
     <item
         android:id="@+id/favouriteFragment"
         android:enabled="true"
-        android:icon="@drawable/favorite"
+        android:icon="@drawable/bookmark"
         android:title="Favourite" />
     <item
         android:id="@+id/accountFragment"

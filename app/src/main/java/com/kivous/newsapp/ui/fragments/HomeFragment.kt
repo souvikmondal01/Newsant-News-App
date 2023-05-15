@@ -1,6 +1,7 @@
 package com.kivous.newsapp.ui.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.kivous.newsapp.common.Constants.KEY
 import com.kivous.newsapp.common.Constants.QUERY_PAGE_SIZE
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.common.Utils.gone
+import com.kivous.newsapp.common.Utils.hideKeyboard
 import com.kivous.newsapp.common.Utils.toast
 import com.kivous.newsapp.common.Utils.visible
 import com.kivous.newsapp.databinding.FragmentHomeBinding
@@ -34,11 +36,13 @@ class HomeFragment : Fragment(), NewsListener {
     private val binding get() = _binding!!
     private lateinit var adapter: NewsAdapter
     private val viewModel: NewsViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -48,6 +52,7 @@ class HomeFragment : Fragment(), NewsListener {
             activity?.finish()
         }
 
+        viewModel.getBreakingNews("in")
         viewModel.breakingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
@@ -90,32 +95,12 @@ class HomeFragment : Fragment(), NewsListener {
         val navBar =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
         navBar.visible()
+        hideKeyboard()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onArticleClick(holder: NewsAdapter.ViewHolder, article: Article) {
-        val bundle = bundleOf(KEY to article.url)
-        findNavController().navigate(
-            R.id.action_homeFragment_to_articleFragment, bundle
-        )
-    }
-
-    override fun onSaveClick(article: Article) {
-        viewModel.saveArticle(article)
-        Snackbar.make(requireView(), "Article saved successfully", Snackbar.LENGTH_SHORT).apply {
-            setAction("Show") {
-                findNavController().navigate(R.id.action_homeFragment_to_favouriteFragment)
-                val navBar =
-                    requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
-                navBar.gone()
-            }
-            show()
-        }
-
     }
 
     var isLoading = false
@@ -148,10 +133,59 @@ class HomeFragment : Fragment(), NewsListener {
                 viewModel.getBreakingNews("in")
                 isScrolling = false
             }
+        }
+    }
 
+    override fun handleListView(holder: NewsAdapter.ViewHolder, article: Article) {
+        holder.apply {
+            binding.apply {
+                var isSaved = false
+                ivSave.setOnClickListener { view ->
+                    if (!isSaved) {
+                        view.setBackgroundResource(R.drawable.bookmark)
+                        viewModel.saveArticle(article)
+                        Snackbar.make(
+                            requireView(),
+                            "Article saved successfully",
+                            Snackbar.LENGTH_SHORT
+                        ).apply {
+                            setAction("Show") {
+                                findNavController().navigate(R.id.action_homeFragment_to_favouriteFragment)
+                                val navBar =
+                                    requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+                                navBar.gone()
+                            }
+                            show()
+                        }
+                    } else {
+                        view.setBackgroundResource(R.drawable.bookmark_border)
+                    }
+                    isSaved = !isSaved
+                }
+
+                ivShare.setOnClickListener {
+                    shareArticle(article.url.toString())
+                }
+            }
+
+            itemView.setOnClickListener {
+                val bundle = bundleOf(KEY to article.url)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_articleFragment, bundle
+                )
+            }
         }
 
     }
 
+    private fun shareArticle(link: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, link)
+        val chooser = Intent.createChooser(intent, "")
+        activity?.startActivity(chooser)
+    }
+
 
 }
+

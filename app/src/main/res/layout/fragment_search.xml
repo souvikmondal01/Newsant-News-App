@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:backgroundTint="@android:color/transparent"
+        android:visibility="gone"
         app:cardCornerRadius="120dp"
         app:layout_constraintBottom_toTopOf="@id/v_line"
         app:layout_constraintEnd_toEndOf="parent"

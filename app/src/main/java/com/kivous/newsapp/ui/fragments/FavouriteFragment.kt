@@ -4,24 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.kivous.newsapp.adapters.NewsAdapter
-import com.kivous.newsapp.adapters.NewsListener
+import com.kivous.newsapp.R
+import com.kivous.newsapp.adapters.SearchNewsAdapter
+import com.kivous.newsapp.adapters.SearchNewsListener
+import com.kivous.newsapp.common.Constants
+import com.kivous.newsapp.common.Utils.hideKeyboard
 import com.kivous.newsapp.databinding.FragmentFavouriteBinding
 import com.kivous.newsapp.model.Article
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavouriteFragment: Fragment(), NewsListener {
+class FavouriteFragment : Fragment(), SearchNewsListener {
     private var _binding: FragmentFavouriteBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: NewsAdapter
+    private lateinit var adapter: SearchNewsAdapter
     private val viewModel: NewsViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,14 +68,11 @@ class FavouriteFragment: Fragment(), NewsListener {
             attachToRecyclerView(binding.recyclerView)
         }
 
-
         viewModel.getSavedNews().observe(viewLifecycleOwner) { articles ->
-
             adapter.differ.submitList(articles)
-
         }
 
-        adapter = NewsAdapter(this)
+        adapter = SearchNewsAdapter(this)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -80,16 +82,31 @@ class FavouriteFragment: Fragment(), NewsListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        hideKeyboard()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    override fun onArticleClick(holder: NewsAdapter.ViewHolder, article: Article) {
+    override fun handleListView(holder: SearchNewsAdapter.ViewHolder, article: Article) {
+        holder.apply {
+            itemView.setOnClickListener {
+                val bundle = bundleOf(Constants.KEY to article.url)
+                findNavController().navigate(
+                    R.id.action_favouriteFragment_to_articleFragment, bundle
+                )
+            }
 
+            binding.apply {
+                ivSave.setBackgroundResource(R.drawable.bookmark)
+                ivSave.setOnClickListener {
+                }
+            }
+        }
     }
 
-    override fun onSaveClick(article: Article) {
-
-    }
 }

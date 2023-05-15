@@ -37,9 +37,9 @@ class NewsViewModel
     var searchNewsResponse: NewsResponse? = null
 
 
-    init {
-        getBreakingNews("in")
-    }
+//    init {
+//        getBreakingNews("in")
+//    }
 
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         safeBreakingNewsCall(countryCode)

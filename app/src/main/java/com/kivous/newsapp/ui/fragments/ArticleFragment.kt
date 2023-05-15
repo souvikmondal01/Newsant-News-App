@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kivous.newsapp.R
 import com.kivous.newsapp.common.Constants.KEY
 import com.kivous.newsapp.common.Utils.gone
+import com.kivous.newsapp.common.Utils.hideKeyboard
 import com.kivous.newsapp.databinding.FragmentArticleBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +39,10 @@ class ArticleFragment : Fragment() {
         binding.cvBackArrow.setOnClickListener {
             activity?.onBackPressed()
         }
+    }
+    override fun onStart() {
+        super.onStart()
+        hideKeyboard()
     }
 
     override fun onDestroyView() {

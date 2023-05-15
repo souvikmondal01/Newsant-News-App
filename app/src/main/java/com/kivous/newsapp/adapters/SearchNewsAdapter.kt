@@ -41,7 +41,7 @@ class SearchNewsAdapter(private val listener: SearchNewsListener) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = differ.currentList[position]
-
+        listener.handleListView(holder, article)
         holder.apply {
             binding.apply {
                 tvTitle.text = article.title
@@ -51,9 +51,6 @@ class SearchNewsAdapter(private val listener: SearchNewsListener) :
             }
             itemView.apply {
                 Glide.with(this).load(article.urlToImage).into(binding.ivArticle)
-                setOnClickListener {
-                    listener.onArticleClick(holder, article)
-                }
             }
         }
     }
@@ -61,5 +58,5 @@ class SearchNewsAdapter(private val listener: SearchNewsListener) :
 }
 
 interface SearchNewsListener {
-    fun onArticleClick(holder: SearchNewsAdapter.ViewHolder, article: Article)
+    fun handleListView(holder: SearchNewsAdapter.ViewHolder, article: Article)
 }

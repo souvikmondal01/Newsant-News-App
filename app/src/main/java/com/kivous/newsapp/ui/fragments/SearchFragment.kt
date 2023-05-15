@@ -8,16 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AbsListView
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kivous.newsapp.R
 import com.kivous.newsapp.adapters.SearchNewsAdapter
 import com.kivous.newsapp.adapters.SearchNewsListener
 import com.kivous.newsapp.common.Constants
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.common.Utils
+import com.kivous.newsapp.common.Utils.hideKeyboard
 import com.kivous.newsapp.common.Utils.toast
 import com.kivous.newsapp.databinding.FragmentSearchBinding
 import com.kivous.newsapp.model.Article
@@ -104,6 +108,11 @@ class SearchFragment : Fragment(), SearchNewsListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        hideKeyboard()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -157,7 +166,18 @@ class SearchFragment : Fragment(), SearchNewsListener {
         }
     }
 
-    override fun onArticleClick(holder: SearchNewsAdapter.ViewHolder, article: Article) {
+
+    override fun handleListView(holder: SearchNewsAdapter.ViewHolder, article: Article) {
+        holder.apply {
+            itemView.setOnClickListener {
+                val bundle = bundleOf(Constants.KEY to article.url)
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_articleFragment, bundle
+                )
+            }
+
+        }
+
     }
 
 }

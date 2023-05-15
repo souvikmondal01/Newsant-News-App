@@ -24,8 +24,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@mipmap/ic_launcher" />
-    </com.google.android.material.card.MaterialCardView>
 
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/tv_source"
@@ -57,7 +57,7 @@
         android:id="@+id/tv_publish_at"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:textColor="?attr/textAppearanceBody2"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -69,11 +69,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/favorite"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/bookmark_border"
+        app:layout_constraintBottom_toTopOf="@id/v_line"
+        app:layout_constraintEnd_toStartOf="@id/iv_share"
+        app:tint="?attr/textAppearanceBody2" />
+
+    <ImageView
+        android:id="@+id/iv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/share"
         app:layout_constraintBottom_toTopOf="@id/v_line"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/holo_red_light" />
+        app:tint="?attr/textAppearanceBody2" />
 
     <View
         android:id="@+id/v_line"
@@ -94,6 +105,7 @@
         android:textColor="?attr/textAppearanceBody1"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/cv"
         app:layout_constraintTop_toTopOf="@id/cv" />
 

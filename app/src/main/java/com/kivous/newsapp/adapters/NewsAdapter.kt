@@ -40,22 +40,17 @@ class NewsAdapter(private val listener: NewsListener) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = differ.currentList[position]
+        listener.handleListView(holder, article)
 
         holder.apply {
             binding.apply {
                 tvTitle.text = article.title
                 tvSource.text = article.source?.name
                 tvPublishAt.text = article.publishedAt
-                ivSave.setOnClickListener {
-                    listener.onSaveClick(article)
-                }
                 count.text = "${position + 1}"
             }
             itemView.apply {
                 Glide.with(this).load(article.urlToImage).into(binding.ivArticle)
-                setOnClickListener {
-                    listener.onArticleClick(holder, article)
-                }
             }
         }
     }
@@ -63,6 +58,5 @@ class NewsAdapter(private val listener: NewsListener) :
 }
 
 interface NewsListener {
-    fun onArticleClick(holder: NewsAdapter.ViewHolder, article: Article)
-    fun onSaveClick(article: Article)
+    fun handleListView(holder: NewsAdapter.ViewHolder, article: Article)
 }
