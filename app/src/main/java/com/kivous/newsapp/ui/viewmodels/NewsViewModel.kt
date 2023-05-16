@@ -9,6 +9,7 @@ import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.container.NewsApplication
 import com.kivous.newsapp.model.Article
@@ -27,7 +28,6 @@ class NewsViewModel
     private val newsRepository: NewsRepository
 ) : AndroidViewModel(app) {
 
-
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsPage = 1
     var breakingNewsResponse: NewsResponse? = null
@@ -36,10 +36,6 @@ class NewsViewModel
     var searchNewsPage = 1
     var searchNewsResponse: NewsResponse? = null
 
-
-//    init {
-//        getBreakingNews("in")
-//    }
 
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         safeBreakingNewsCall(countryCode)
@@ -141,4 +137,7 @@ class NewsViewModel
             else -> false
         }
     }
+
+    val categoryNews = newsRepository.getCategoryNews("technology").cachedIn(viewModelScope)
+
 }

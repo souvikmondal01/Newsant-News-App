@@ -1,8 +1,12 @@
 package com.kivous.newsapp.repositories
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.liveData
 import com.kivous.newsapp.db.ArticleDatabase
 import com.kivous.newsapp.model.Article
 import com.kivous.newsapp.network.NewsAPI
+import com.kivous.newsapp.paging.NewsPagingSource
 import javax.inject.Inject
 
 class NewsRepository @Inject constructor(
@@ -20,4 +24,10 @@ class NewsRepository @Inject constructor(
     fun getSavedNews() = db.getArticleDao().getAllArticles()
 
     suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
+
+    fun getCategoryNews(category: String) = Pager(
+        config = PagingConfig(pageSize = 20, maxSize = 100),
+        pagingSourceFactory = { NewsPagingSource(api, category) }
+    ).liveData
+
 }

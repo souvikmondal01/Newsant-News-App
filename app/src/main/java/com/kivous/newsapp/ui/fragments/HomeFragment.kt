@@ -36,7 +36,6 @@ class HomeFragment : Fragment(), NewsListener {
     private val binding get() = _binding!!
     private lateinit var adapter: NewsAdapter
     private val viewModel: NewsViewModel by viewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,6 +55,7 @@ class HomeFragment : Fragment(), NewsListener {
         viewModel.breakingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
+
                     binding.pb.gone()
                     isLoading = false
                     response.data?.let { newsResponse ->
@@ -175,7 +175,6 @@ class HomeFragment : Fragment(), NewsListener {
                 )
             }
         }
-
     }
 
     private fun shareArticle(link: String) {
