@@ -83,6 +83,7 @@ class HomeFragment : Fragment(), NewsListener {
             }
         }
 
+
         adapter = NewsAdapter(this)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

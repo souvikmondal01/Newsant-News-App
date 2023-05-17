@@ -7,8 +7,10 @@ import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.container.NewsApplication
@@ -138,6 +140,30 @@ class NewsViewModel
         }
     }
 
+
     val categoryNews = newsRepository.getCategoryNews("technology").cachedIn(viewModelScope)
+    val scienceNews = newsRepository.getCategoryNews("science").cachedIn(viewModelScope)
+
+    //    val entertainmentNews = newsRepository.getCategoryNews("entertainment").cachedIn(viewModelScope)
+    val e: MutableLiveData<Resource<LiveData<PagingData<Article>>>> = MutableLiveData()
+
+    fun eData(cat: String) {
+        val news =
+            newsRepository.getCategoryNews(cat).cachedIn(viewModelScope)
+        e.value = Resource.Loading()
+        try {
+            if (hasInternetConnection()) {
+                e.value = Resource.Success(news)
+            } else {
+                e.value = Resource.Error("No Internet")
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> e.value = Resource.Error("Network Failure")
+                else -> e.value = Resource.Error("Conversion Error")
+            }
+        }
+    }
+
 
 }
