@@ -25,9 +25,11 @@ class NewsRepository @Inject constructor(
 
     suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
 
-    fun getCategoryNews(category: String) = Pager(
+    fun isExist(url: String) = db.getArticleDao().isExist(url)
+
+    fun getCategoryNews(countryCode: String, category: String) = Pager(
         config = PagingConfig(pageSize = 20, maxSize = 100),
-        pagingSourceFactory = { NewsPagingSource(api, category) }
+        pagingSourceFactory = { NewsPagingSource(api, countryCode, category) }
     ).liveData
 
 }

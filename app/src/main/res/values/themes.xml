@@ -8,12 +8,19 @@
         <item name="backgroundColor">@color/grey</item>
         <item name="backgroundTint">@color/grey_light</item>
         <item name="strokeColor">#D7E3F7</item>
+        <item name="tabBackground">@color/white</item>
     </style>
 
     <style name="Theme.NewsApp" parent="Base.Theme.NewsApp" />
 
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-                <item name="android:color">#D7E3F7</item>
+        <item name="android:color">#D7E3F7</item>
         <item name="android:height">28dp</item>
     </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
+
 </resources>

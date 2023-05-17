@@ -38,7 +38,6 @@ class NewsViewModel
     var searchNewsPage = 1
     var searchNewsResponse: NewsResponse? = null
 
-
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         safeBreakingNewsCall(countryCode)
     }
@@ -91,6 +90,8 @@ class NewsViewModel
         newsRepository.deleteArticle(article)
     }
 
+    fun isExist(url: String) = newsRepository.isExist(url)
+
     private suspend fun safeSearchNewsCall(searchQuery: String) {
         searchNews.value = Resource.Loading()
         try {
@@ -125,7 +126,7 @@ class NewsViewModel
         }
     }
 
-    private fun hasInternetConnection(): Boolean {
+    fun hasInternetConnection(): Boolean {
         val connectivityManager = getApplication<NewsApplication>().getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
@@ -140,30 +141,10 @@ class NewsViewModel
         }
     }
 
+    fun categoryNews(category: String): LiveData<PagingData<Article>> =
+        newsRepository.getCategoryNews("in", category).cachedIn(viewModelScope)
 
-    val categoryNews = newsRepository.getCategoryNews("technology").cachedIn(viewModelScope)
-    val scienceNews = newsRepository.getCategoryNews("science").cachedIn(viewModelScope)
-
-    //    val entertainmentNews = newsRepository.getCategoryNews("entertainment").cachedIn(viewModelScope)
-    val e: MutableLiveData<Resource<LiveData<PagingData<Article>>>> = MutableLiveData()
-
-    fun eData(cat: String) {
-        val news =
-            newsRepository.getCategoryNews(cat).cachedIn(viewModelScope)
-        e.value = Resource.Loading()
-        try {
-            if (hasInternetConnection()) {
-                e.value = Resource.Success(news)
-            } else {
-                e.value = Resource.Error("No Internet")
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> e.value = Resource.Error("Network Failure")
-                else -> e.value = Resource.Error("Conversion Error")
-            }
-        }
-    }
-
+    fun scrollNews(): LiveData<PagingData<Article>> =
+        newsRepository.getCategoryNews("us", "general").cachedIn(viewModelScope)
 
 }

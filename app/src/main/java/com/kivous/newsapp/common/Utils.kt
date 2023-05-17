@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
 object Utils {
@@ -18,6 +19,7 @@ object Utils {
             context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return darkModeFlag == Configuration.UI_MODE_NIGHT_YES
     }
+
 
     fun View.visible() {
         visibility = View.VISIBLE
@@ -66,6 +68,10 @@ object Utils {
         val inputMethodManager =
             getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun Fragment.setStatusBarColor(color: Int) {
+        activity!!.window.statusBarColor = ContextCompat.getColor(requireContext(), color)
     }
 
 

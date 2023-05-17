@@ -29,6 +29,10 @@ import com.kivous.newsapp.databinding.FragmentHomeBinding
 import com.kivous.newsapp.model.Article
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), NewsListener {
@@ -141,7 +145,23 @@ class HomeFragment : Fragment(), NewsListener {
         holder.apply {
             binding.apply {
                 var isSaved = false
+                GlobalScope.launch {
+                    val a = viewModel.isExist(article.url.toString())
+                    withContext(Dispatchers.Main) {
+                      if (a != 0){
+                          ivSave.setBackgroundResource(R.drawable.bookmark)
+                      }
+                    }
+                }
+
                 ivSave.setOnClickListener { view ->
+//                    GlobalScope.launch {
+//                        val a = viewModel.isExist(article.url.toString())
+//                        withContext(Dispatchers.Main){
+//                            toast(a.toString())
+//                        }
+//                    }
+
                     if (!isSaved) {
                         view.setBackgroundResource(R.drawable.bookmark)
                         viewModel.saveArticle(article)
@@ -185,7 +205,6 @@ class HomeFragment : Fragment(), NewsListener {
         val chooser = Intent.createChooser(intent, "")
         activity?.startActivity(chooser)
     }
-
 
 }
 

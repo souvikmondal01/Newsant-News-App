@@ -11,7 +11,6 @@ import com.kivous.newsapp.model.Article
 
 class NewsAdapter(private val listener: NewsListener) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
-
     class ViewHolder(val binding: ListNewsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -23,7 +22,6 @@ class NewsAdapter(private val listener: NewsListener) :
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem == newItem
         }
-
     }
 
     val differ = AsyncListDiffer(this, differCallback)

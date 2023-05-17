@@ -16,18 +16,6 @@
         <action
             android:id="@+id/action_homeFragment_to_favouriteFragment"
             app:destination="@id/favouriteFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/accountFragment"
-        android:name="com.kivous.newsapp.ui.fragments.AccountFragment"
-        android:label="fragment_account"
-        tools:layout="@layout/fragment_account" >
-        <action
-            android:id="@+id/action_accountFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/scrollFragment"
@@ -57,4 +45,28 @@
         android:name="com.kivous.newsapp.ui.fragments.ArticleFragment"
         android:label="fragment_article"
         tools:layout="@layout/fragment_article" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.kivous.newsapp.ui.fragments.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/businessFragment"
+        android:name="com.kivous.newsapp.ui.fragments.categories.BusinessFragment"
+        android:label="fragment_business"
+        tools:layout="@layout/fragment_business" >
+        <action
+            android:id="@+id/action_businessFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_businessFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
+    </fragment>
 </navigation>

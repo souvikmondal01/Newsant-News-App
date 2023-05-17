@@ -5,7 +5,11 @@ import androidx.paging.PagingState
 import com.kivous.newsapp.model.Article
 import com.kivous.newsapp.network.NewsAPI
 
-class NewsPagingSource(private val api: NewsAPI, private val category: String) :
+class NewsPagingSource(
+    private val api: NewsAPI,
+    private val countryCode: String,
+    private val category: String
+) :
     PagingSource<Int, Article>() {
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         return state.anchorPosition?.let {
@@ -17,7 +21,7 @@ class NewsPagingSource(private val api: NewsAPI, private val category: String) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         return try {
             val position = params.key ?: 1
-            val response = api.getNewsByCategory(position, "in", category)
+            val response = api.getNewsByCategory(position, countryCode, category)
 
             LoadResult.Page(
                 data = response.body()!!.articles,

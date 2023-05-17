@@ -1,9 +1,11 @@
 package com.kivous.newsapp.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -11,6 +13,7 @@ import com.kivous.newsapp.R
 import com.kivous.newsapp.common.Constants.KEY
 import com.kivous.newsapp.common.Utils.gone
 import com.kivous.newsapp.common.Utils.hideKeyboard
+import com.kivous.newsapp.common.Utils.visible
 import com.kivous.newsapp.databinding.FragmentArticleBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,17 +32,27 @@ class ArticleFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val url = arguments?.getString(KEY)
-        binding.webView.apply {
-            webViewClient = WebViewClient()
-            loadUrl(url.toString())
-        }
+
         binding.cvBackArrow.setOnClickListener {
             activity?.onBackPressed()
         }
+        url?.let {
+            binding.webView.settings.javaScriptEnabled = false
+            binding.webView.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+                    binding.pb.gone()
+                    binding.webView.visible()
+                }
+            }
+            binding.webView.loadUrl(url.toString())
+        }
     }
+
     override fun onStart() {
         super.onStart()
         hideKeyboard()
