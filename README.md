@@ -35,6 +35,9 @@ The architecture of this application relies and complies with the following poin
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/48c6f1fb-2caf-4142-b634-dfea584b03e3" height="385" width="180" hspace="5">
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/f4a90542-187a-4a07-8a91-d0e531ce4fc6" height="385" width="180" hspace="5">
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/0c8fa1be-5520-4938-8491-68ddba6f0aa3" height="385" width="180" hspace="5">
+<img src="https://github.com/mondal-souvik/git-two/assets/100204863/f230ae36-923b-433b-8260-8b31f2ecbc38" height="385" width="180" hspace="5">
+
+
 
 <br/>
 <br/>
@@ -49,9 +52,7 @@ The architecture of this application relies and complies with the following poin
 
 
 
-
-
-
+<!-- <video src='https://github.com/mondal-souvik/git-two/assets/100204863/2514f9dc-e054-4fea-9cc8-f0cd9a4ec993' width=180/> -->
 
 
 [Android Jetpack]: https://developer.android.com/jetpack
