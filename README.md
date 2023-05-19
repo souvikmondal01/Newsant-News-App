@@ -24,8 +24,10 @@ The architecture of this application relies and complies with the following poin
 * [Paging Library](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) helps you load and display small chunks of data at a time.
 * [Glide](https://github.com/bumptech/glide) - An image loading and caching library for Android focused on smooth scrolling.
 
+<img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10">
 
 
+<img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10">
 
 
 
