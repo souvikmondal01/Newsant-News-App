@@ -6,7 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kivous.newsapp.ui.fragments.categories.BusinessFragment
 import com.kivous.newsapp.ui.fragments.categories.EntertainmentFragment
-import com.kivous.newsapp.ui.fragments.categories.GeneralFragment
 import com.kivous.newsapp.ui.fragments.categories.HealthFragment
 import com.kivous.newsapp.ui.fragments.categories.ScienceFragment
 import com.kivous.newsapp.ui.fragments.categories.SportsFragment
@@ -15,7 +14,7 @@ import com.kivous.newsapp.ui.fragments.categories.TechnologyFragment
 class TabLayoutAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
-        return 7
+        return 6
     }
 
     override fun createFragment(position: Int): Fragment {
@@ -29,18 +28,14 @@ class TabLayoutAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
             }
 
             2 -> {
-                return GeneralFragment()
-            }
-
-            3 -> {
                 return HealthFragment()
             }
 
-            4 -> {
+            3 -> {
                 return ScienceFragment()
             }
 
-            5 -> {
+            4 -> {
                 return SportsFragment()
             }
 
@@ -48,6 +43,7 @@ class TabLayoutAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
                 return TechnologyFragment()
             }
         }
-
     }
+
+
 }

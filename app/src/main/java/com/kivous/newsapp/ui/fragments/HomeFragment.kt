@@ -1,7 +1,6 @@
 package com.kivous.newsapp.ui.fragments
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,17 +17,19 @@ import com.google.android.material.snackbar.Snackbar
 import com.kivous.newsapp.R
 import com.kivous.newsapp.adapters.NewsAdapter
 import com.kivous.newsapp.adapters.NewsListener
-import com.kivous.newsapp.common.Constants.KEY
+import com.kivous.newsapp.common.Constants
 import com.kivous.newsapp.common.Constants.QUERY_PAGE_SIZE
 import com.kivous.newsapp.common.Resource
 import com.kivous.newsapp.common.Utils.gone
 import com.kivous.newsapp.common.Utils.hideKeyboard
+import com.kivous.newsapp.common.Utils.shareArticle
 import com.kivous.newsapp.common.Utils.toast
 import com.kivous.newsapp.common.Utils.visible
 import com.kivous.newsapp.databinding.FragmentHomeBinding
 import com.kivous.newsapp.model.Article
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,16 +60,12 @@ class HomeFragment : Fragment(), NewsListener {
         viewModel.breakingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-
                     binding.pb.gone()
                     isLoading = false
                     response.data?.let { newsResponse ->
                         adapter.differ.submitList(newsResponse.articles.toList())
                         val totalPages = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.breakingNewsPage == totalPages
-//                        if (isLastPage) {
-//                            binding.recyclerView.setPadding(0, 0, 0, 0)
-//                        }
                     }
                 }
 
@@ -86,7 +83,6 @@ class HomeFragment : Fragment(), NewsListener {
                 }
             }
         }
-
 
         adapter = NewsAdapter(this)
         binding.recyclerView.adapter = adapter
@@ -141,47 +137,68 @@ class HomeFragment : Fragment(), NewsListener {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun handleListView(holder: NewsAdapter.ViewHolder, article: Article) {
         holder.apply {
             binding.apply {
-                var isSaved = false
                 GlobalScope.launch {
-                    val a = viewModel.isExist(article.url.toString())
+                    val data = viewModel.isExist(article.url.toString())
                     withContext(Dispatchers.Main) {
-                      if (a != 0){
-                          ivSave.setBackgroundResource(R.drawable.bookmark)
-                      }
-                    }
-                }
+                        var check = true
+                        if (data != 0) { // means data already exists
+                            ivSave.setImageResource(R.drawable.bookmark)
+                            ivSave.setOnClickListener {
 
-                ivSave.setOnClickListener { view ->
-//                    GlobalScope.launch {
-//                        val a = viewModel.isExist(article.url.toString())
-//                        withContext(Dispatchers.Main){
-//                            toast(a.toString())
-//                        }
-//                    }
-
-                    if (!isSaved) {
-                        view.setBackgroundResource(R.drawable.bookmark)
-                        viewModel.saveArticle(article)
-                        Snackbar.make(
-                            requireView(),
-                            "Article saved successfully",
-                            Snackbar.LENGTH_SHORT
-                        ).apply {
-                            setAction("Show") {
-                                findNavController().navigate(R.id.action_homeFragment_to_favouriteFragment)
-                                val navBar =
-                                    requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
-                                navBar.gone()
+                                Snackbar.make(
+                                    requireView(),
+                                    "Article already saved",
+                                    Snackbar.LENGTH_SHORT
+                                ).apply {
+                                    setAction("Ok") {
+                                        dismiss()
+                                    }
+                                    show()
+                                }
                             }
-                            show()
+                        } else {
+                            ivSave.setImageResource(R.drawable.bookmark_border)
+                            ivSave.setOnClickListener {
+                                if (!check) {
+                                    Snackbar.make(
+                                        requireView(),
+                                        "Article already saved",
+                                        Snackbar.LENGTH_SHORT
+                                    ).apply {
+                                        setAction("Ok") {
+                                            dismiss()
+                                        }
+                                        show()
+                                    }
+
+                                } else {
+                                    viewModel.saveArticle(article)
+                                    ivSave.setImageResource(R.drawable.bookmark)
+                                    Snackbar.make(
+                                        requireView(),
+                                        "Article saved successfully",
+                                        Snackbar.LENGTH_SHORT
+                                    ).apply {
+                                        setAction("Show") {
+                                            findNavController().navigate(R.id.action_homeFragment_to_favouriteFragment)
+                                            val navBar =
+                                                requireActivity().findViewById<BottomNavigationView>(
+                                                    R.id.bottom_navigation
+                                                )
+                                            navBar.gone()
+                                        }
+                                        show()
+                                    }
+                                }
+                                check = false
+
+                            }
                         }
-                    } else {
-                        view.setBackgroundResource(R.drawable.bookmark_border)
                     }
-                    isSaved = !isSaved
                 }
 
                 ivShare.setOnClickListener {
@@ -190,21 +207,12 @@ class HomeFragment : Fragment(), NewsListener {
             }
 
             itemView.setOnClickListener {
-                val bundle = bundleOf(KEY to article.url)
+                val bundle = bundleOf(Constants.KEY to article.url)
                 findNavController().navigate(
                     R.id.action_homeFragment_to_articleFragment, bundle
                 )
             }
         }
     }
-
-    private fun shareArticle(link: String) {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT, link)
-        val chooser = Intent.createChooser(intent, "")
-        activity?.startActivity(chooser)
-    }
-
 }
 

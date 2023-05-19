@@ -37,7 +37,6 @@ class CategoryFragment : Fragment() {
         adapter = TabLayoutAdapter(childFragmentManager, lifecycle)
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Business"))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Entertainment"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("General"))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Health"))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Science"))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sports"))

@@ -2,6 +2,7 @@ package com.kivous.newsapp.common
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.text.Editable
 import android.text.TextWatcher
@@ -74,5 +75,12 @@ object Utils {
         activity!!.window.statusBarColor = ContextCompat.getColor(requireContext(), color)
     }
 
+    fun Fragment.shareArticle(link: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, link)
+        val chooser = Intent.createChooser(intent, "")
+        requireActivity().startActivity(chooser)
+    }
 
 }
