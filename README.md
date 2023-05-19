@@ -27,10 +27,15 @@ The architecture of this application relies and complies with the following poin
 ## App Icon 📱
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/07f6638a-902d-429a-b4ad-1fb6302530ba" width="80px" hspace="40">
 
-<!-- <img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10">
+## Some Screenshots
 
+**Dark Mode :**
 
-<img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"><img src="https://github.com/mondal-souvik/git-two/assets/100204863/5331f848-11ee-4eee-99d5-41b77a715f1c" height="350" width="175" hspace="10"> -->
+<img src="https://github.com/mondal-souvik/git-two/assets/100204863/6248beb1-9e22-4b7c-9e44-a8d94895d72f" height="385" width="180" hspace="5">
+<img src="https://github.com/mondal-souvik/git-two/assets/100204863/48c6f1fb-2caf-4142-b634-dfea584b03e3" height="385" width="180" hspace="5">
+<img src="https://github.com/mondal-souvik/git-two/assets/100204863/f4a90542-187a-4a07-8a91-d0e531ce4fc6" height="385" width="180" hspace="5">
+<img src="https://github.com/mondal-souvik/git-two/assets/100204863/0c8fa1be-5520-4938-8491-68ddba6f0aa3" height="385" width="180" hspace="5">
+
 
 
 
