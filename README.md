@@ -29,7 +29,7 @@ The architecture of this application relies and complies with the following poin
 
 ## Some Screenshots
 
-**Dark Mode :**
+**Dark Theme :**
 
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/6248beb1-9e22-4b7c-9e44-a8d94895d72f" height="385" width="180" hspace="10">
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/48c6f1fb-2caf-4142-b634-dfea584b03e3" height="385" width="180" hspace="10">
@@ -44,7 +44,7 @@ The architecture of this application relies and complies with the following poin
 <br/>
 <br/>
 
-**Light Mode :**
+**Light Theme :**
 
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/ee411289-cd76-4548-a17b-ac2a9ece210f" height="385" width="180" hspace="10">
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/b73bd36d-11e8-40ef-95af-48c0be339457" height="385" width="180" hspace="10">
