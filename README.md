@@ -36,8 +36,9 @@ The architecture of this application relies and complies with the following poin
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/f4a90542-187a-4a07-8a91-d0e531ce4fc6" height="385" width="180" hspace="5">
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/0c8fa1be-5520-4938-8491-68ddba6f0aa3" height="385" width="180" hspace="5">
 
-
-** **
+<br/>
+<br/>
+<br/>
 
 **Light Mode :**
 
