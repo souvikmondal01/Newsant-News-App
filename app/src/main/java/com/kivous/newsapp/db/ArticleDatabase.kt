@@ -3,7 +3,7 @@ package com.kivous.newsapp.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.kivous.newsapp.model.Article
+import com.kivous.newsapp.data.model.Article
 
 @Database(
     entities = [Article::class],
@@ -11,6 +11,5 @@ import com.kivous.newsapp.model.Article
 )
 @TypeConverters(Converters::class)
 abstract class ArticleDatabase : RoomDatabase() {
-
     abstract fun getArticleDao(): ArticleDao
 }

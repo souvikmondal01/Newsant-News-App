@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/homeFragment"
-        android:enabled="true"
         android:icon="@drawable/home"
-        android:title="Home" />
+        tools:ignore="MenuTitle" />
     <item
         android:id="@+id/categoryFragment"
-        android:enabled="true"
         android:icon="@drawable/category"
-        android:title="Category" />
-
+        tools:ignore="MenuTitle" />
     <item
         android:id="@+id/scrollFragment"
-        android:enabled="true"
         android:icon="@drawable/newspaper"
-        android:title="Scroll" />
-
+        tools:ignore="MenuTitle" />
     <item
         android:id="@+id/searchFragment"
-        android:enabled="true"
         android:icon="@drawable/search"
-        android:title="Search" />
+        tools:ignore="MenuTitle" />
     <item
         android:id="@+id/favouriteFragment"
-        android:enabled="true"
         android:icon="@drawable/bookmark"
-        android:title="Favourite" />
-
+        tools:ignore="MenuTitle" />
 
 </menu>

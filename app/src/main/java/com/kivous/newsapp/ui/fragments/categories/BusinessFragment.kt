@@ -4,36 +4,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.kivous.newsapp.R
-import com.kivous.newsapp.adapters.CategoryNewsAdapter
-import com.kivous.newsapp.adapters.CategoryNewsListener
-import com.kivous.newsapp.common.Constants
-import com.kivous.newsapp.common.Utils.gone
-import com.kivous.newsapp.common.Utils.invisible
-import com.kivous.newsapp.common.Utils.shareArticle
-import com.kivous.newsapp.common.Utils.visible
+import com.kivous.newsapp.check_network_connectivity.NetworkViewModel
 import com.kivous.newsapp.databinding.FragmentBusinessBinding
-import com.kivous.newsapp.model.Article
+import com.kivous.newsapp.ui.adapters.LoadingStateAdapter
+import com.kivous.newsapp.ui.adapters.NewsAdapter
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
+import com.kivous.newsapp.utils.Common.gone
+import com.kivous.newsapp.utils.Common.visible
+import com.kivous.newsapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class BusinessFragment : Fragment(), CategoryNewsListener {
+class BusinessFragment : Fragment() {
     private var _binding: FragmentBusinessBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewsViewModel by viewModels()
-    lateinit var adapter: CategoryNewsAdapter
+    private val networkViewModel: NetworkViewModel by viewModels()
+    lateinit var adapter: NewsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,108 +40,79 @@ class BusinessFragment : Fragment(), CategoryNewsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val data = viewModel.categoryNews("business")
-        data.observe(viewLifecycleOwner) { response ->
-            adapter.submitData(lifecycle, response)
+        adapter = NewsAdapter(this, viewModel, R.id.action_categoryFragment_to_webViewFragment)
+        lifecycleScope.launch {
+            networkViewModel.isConnected.collectLatest { isConnected ->
+                binding.cvRefresh.setOnClickListener {
+                    if (isConnected) {
+                        adapter.refresh()
+                    }
+                }
+            }
         }
-
-        adapter = CategoryNewsAdapter(this)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = adapter
+        whenNoInternet()
+        setUpRecyclerView()
+        checkDataLoadState()
+        setDataToAdapter()
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (!viewModel.hasInternetConnection()) {
-            binding.pb.invisible()
-            binding.tv.visible()
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
-    override fun handleListView(holder: CategoryNewsAdapter.ViewHolder, article: Article?) {
-        holder.apply {
-            binding.apply {
-                GlobalScope.launch {
-                    val data = viewModel.isExist(article?.url.toString())
-                    withContext(Dispatchers.Main) {
-                        var check = true
-                        if (data != 0) { // means data already exists
-                            ivSave.setImageResource(R.drawable.bookmark)
-                            ivSave.setOnClickListener {
+    private fun setUpRecyclerView() {
+        binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = LoadingStateAdapter(),
+            footer = LoadingStateAdapter()
+        )
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
 
-                                Snackbar.make(
-                                    requireView(),
-                                    "Article already saved",
-                                    Snackbar.LENGTH_SHORT
-                                ).apply {
-                                    setAction("Ok") {
-                                        dismiss()
-                                    }
-                                    show()
-                                }
-                            }
-                        } else {
-                            ivSave.setImageResource(R.drawable.bookmark_border)
-                            ivSave.setOnClickListener {
-                                if (!check) {
-                                    Snackbar.make(
-                                        requireView(),
-                                        "Article already saved",
-                                        Snackbar.LENGTH_SHORT
-                                    ).apply {
-                                        setAction("Ok") {
-                                            dismiss()
-                                        }
-                                        show()
-                                    }
-
-                                } else {
-                                    article?.let { it1 -> viewModel.saveArticle(it1) }
-                                    ivSave.setImageResource(R.drawable.bookmark)
-                                    Snackbar.make(
-                                        requireView(),
-                                        "Article saved successfully",
-                                        Snackbar.LENGTH_SHORT
-                                    ).apply {
-                                        setAction("Show") {
-                                            findNavController().navigate(R.id.action_categoryFragment_to_favouriteFragment)
-                                            val navBar =
-                                                requireActivity().findViewById<BottomNavigationView>(
-                                                    R.id.bottom_navigation
-                                                )
-                                            navBar.gone()
-                                        }
-                                        show()
-                                    }
-                                }
-                                check = false
-
-                            }
-                        }
-                    }
-                }
-
-                ivShare.setOnClickListener {
-                    shareArticle(article?.url.toString())
-                }
-            }
-
-            itemView.setOnClickListener {
-                val bundle = bundleOf(Constants.KEY to article?.url)
-                findNavController().navigate(
-                    R.id.action_categoryFragment_to_articleFragment, bundle
-                )
+    private fun setDataToAdapter() {
+        lifecycleScope.launch {
+            viewModel.getCategoryNews(Constants.BUSINESS).distinctUntilChanged().collectLatest {
+                adapter.submitData(lifecycle, it)
             }
         }
     }
 
+    private fun checkDataLoadState() {
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                when (loadStates.refresh) {
+                    is LoadState.Loading -> {
+                        binding.progressBar.visible()
+                        binding.cvRefresh.gone()
+                    }
+
+                    is LoadState.NotLoading -> {
+                        binding.progressBar.gone()
+                        binding.recyclerView.visible()
+                        binding.cvRefresh.gone()
+                    }
+
+                    is LoadState.Error -> {
+                        binding.progressBar.gone()
+                        binding.cvRefresh.visible()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun whenNoInternet() {
+        lifecycleScope.launch {
+            networkViewModel.isConnected.collectLatest { isConnected ->
+                if (isConnected) {
+                    binding.viewNetworkError.gone()
+                    adapter.retry()
+                } else {
+                    binding.viewNetworkError.visible()
+                }
+            }
+        }
+    }
 
 }

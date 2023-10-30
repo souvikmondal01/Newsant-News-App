@@ -6,13 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.kivous.newsapp.R
-import com.kivous.newsapp.common.Utils.isDarkMode
 import com.kivous.newsapp.databinding.ActivityMainBinding
+import com.kivous.newsapp.utils.Common.isDarkMode
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -27,13 +29,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
-
-
-//11.05.2023
-//12.05.2023
-//13.05.2023
-//14.05.2023
-//15.05.2023
-//16.05.2023
-//17.05.2023
 

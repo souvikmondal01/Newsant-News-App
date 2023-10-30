@@ -1,13 +1,13 @@
 package com.kivous.newsapp.db
 
 import androidx.room.TypeConverter
-import com.kivous.newsapp.model.Source
+import com.kivous.newsapp.data.model.Source
 
 
 class Converters {
 
     @TypeConverter
-    fun fromSource(source: Source): String {
+    fun fromSource(source: Source): String? {
         return source.name
     }
 

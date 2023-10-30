@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.kivous.newsapp.R
-import com.kivous.newsapp.adapters.TabLayoutAdapter
-import com.kivous.newsapp.common.Utils
-import com.kivous.newsapp.common.Utils.hideKeyboard
-import com.kivous.newsapp.common.Utils.setStatusBarColor
-import com.kivous.newsapp.common.Utils.visible
 import com.kivous.newsapp.databinding.FragmentCategoryBinding
+import com.kivous.newsapp.ui.adapters.TabLayoutAdapter
+import com.kivous.newsapp.utils.Common.isDarkMode
+import com.kivous.newsapp.utils.Common.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -22,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
-    lateinit var adapter: TabLayoutAdapter
+    private lateinit var adapter: TabLayoutAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,21 +30,22 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         adapter = TabLayoutAdapter(childFragmentManager, lifecycle)
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Business"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Entertainment"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Health"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Science"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sports"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Technology"))
+        binding.tabLayout.apply {
+            addTab(binding.tabLayout.newTab().setText("Business"))
+            addTab(binding.tabLayout.newTab().setText("Entertainment"))
+            addTab(binding.tabLayout.newTab().setText("Health"))
+            addTab(binding.tabLayout.newTab().setText("Science"))
+            addTab(binding.tabLayout.newTab().setText("Sports"))
+            addTab(binding.tabLayout.newTab().setText("Technology"))
+        }
 
         binding.viewpager.adapter = adapter
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
-                    binding.viewpager.currentItem = tab.position
+                    binding.viewpager.currentItem = it.position
                 }
             }
 
@@ -69,28 +67,24 @@ class CategoryFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        hideKeyboard()
-        val navBar =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        navBar.visible()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (Utils.isDarkMode(requireContext())) {
-            setStatusBarColor(R.color.arsenic)
+        if (isDarkMode(requireContext())) {
+            setStatusBarColor(R.color.md_theme_dark_surface)
+        } else {
+            setStatusBarColor(R.color.md_theme_light_surface)
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (Utils.isDarkMode(requireContext())) {
-            setStatusBarColor(R.color.background)
+    override fun onStop() {
+        super.onStop()
+        if (isDarkMode(requireContext())) {
+            setStatusBarColor(R.color.md_theme_dark_background)
+        } else {
+            setStatusBarColor(R.color.md_theme_light_background)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
