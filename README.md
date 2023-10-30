@@ -22,7 +22,7 @@ The architecture of this application relies and complies with the following poin
 * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) Coroutines help in managing background threads and reduces the need for callbacks.
 * [Room](https://developer.android.com/topic/libraries/architecture/room) persistence library which provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
 * [Paging Library](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) helps you load and display small chunks of data at a time.
-* [Coil](https://coil-kt.github.io/coil/) - An image loading library for Android backed by Kotlin Coroutines.
+* [Glide](https://github.com/bumptech/glide) - An image loading and caching library for Android focused on smooth scrolling.
 ## App Icon 📱
 <img src="https://github.com/mondal-souvik/git-two/assets/100204863/07f6638a-902d-429a-b4ad-1fb6302530ba" width="80px" hspace="40">
 
