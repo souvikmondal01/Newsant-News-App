@@ -87,8 +87,10 @@ class ScrollFragment : Fragment() {
 
     private fun setDataToAdapter() {
         lifecycleScope.launch {
-            viewModel.getScrollNews(GENERAL).distinctUntilChanged().collectLatest {
-                adapter.submitData(lifecycle, it)
+            viewModel.apiKey.collectLatest { apiKey ->
+                viewModel.getScrollNews(GENERAL, apiKey).distinctUntilChanged().collectLatest {
+                    adapter.submitData(lifecycle, it)
+                }
             }
         }
     }

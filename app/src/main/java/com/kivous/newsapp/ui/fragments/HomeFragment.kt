@@ -30,6 +30,7 @@ class HomeFragment : Fragment() {
     private val viewModel: NewsViewModel by viewModels()
     private val networkViewModel: NetworkViewModel by viewModels()
     lateinit var adapter: NewsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -55,7 +56,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
         whenNoInternet()
         setUpRecyclerView()
         checkDataLoadState()
@@ -77,8 +77,10 @@ class HomeFragment : Fragment() {
 
     private fun setDataToAdapter() {
         lifecycleScope.launch {
-            viewModel.getBreakingNews().distinctUntilChanged().collectLatest {
-                adapter.submitData(lifecycle, it)
+            viewModel.apiKey.collectLatest { apiKey ->
+                viewModel.getBreakingNews(apiKey).distinctUntilChanged().collectLatest {
+                    adapter.submitData(lifecycle, it)
+                }
             }
         }
     }

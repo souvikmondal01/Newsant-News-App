@@ -16,17 +16,20 @@ class NewsViewModel
 @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
-    fun getBreakingNews(): Flow<PagingData<Article>> =
-        newsRepository.getBreakingNewsFlow().cachedIn(viewModelScope)
+    fun getBreakingNews(apiKey: String): Flow<PagingData<Article>> =
+        newsRepository.getBreakingNewsFlow(apiKey = apiKey).cachedIn(viewModelScope)
 
-    fun getCategoryNews(category: String): Flow<PagingData<Article>> =
-        newsRepository.getCategoryNewsFlow(category = category).cachedIn(viewModelScope)
+    fun getCategoryNews(category: String, apiKey: String): Flow<PagingData<Article>> =
+        newsRepository.getCategoryNewsFlow(category = category, apiKey = apiKey)
+            .cachedIn(viewModelScope)
 
-    fun getScrollNews(category: String): Flow<PagingData<Article>> =
-        newsRepository.getScrollNewsFlow(category = category).cachedIn(viewModelScope)
+    fun getScrollNews(category: String, apiKey: String): Flow<PagingData<Article>> =
+        newsRepository.getScrollNewsFlow(category = category, apiKey = apiKey)
+            .cachedIn(viewModelScope)
 
-    fun getSearchNews(searchQuery: String): Flow<PagingData<Article>> =
-        newsRepository.getSearchNewsFlow(searchQuery = searchQuery).cachedIn(viewModelScope)
+    fun getSearchNews(searchQuery: String, apiKey: String): Flow<PagingData<Article>> =
+        newsRepository.getSearchNewsFlow(searchQuery = searchQuery, apiKey = apiKey)
+            .cachedIn(viewModelScope)
 
     fun insertArticle(article: Article) = viewModelScope.launch {
         newsRepository.insertArticle(article)
@@ -45,5 +48,7 @@ class NewsViewModel
     fun isArticleExist(url: String) = newsRepository.isArticleExist(url)
 
     fun isArticleListEmpty(): Flow<Boolean> = newsRepository.isArticleListEmpty()
+
+    val apiKey = newsRepository.getAPIKey()
 
 }

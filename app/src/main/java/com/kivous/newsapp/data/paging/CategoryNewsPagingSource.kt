@@ -11,12 +11,13 @@ class CategoryNewsPagingSource(
     private val newsAPI: NewsAPI,
     private val countryCode: String,
     private val category: String,
+    private val apiKey: String
 ) : PagingSource<Int, Article>() {
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? = null
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val page = params.key ?: 1
         return try {
-            val response = newsAPI.getNewsByCategory(page, countryCode, category).articles
+            val response = newsAPI.getNewsByCategory(page, countryCode, category, apiKey).articles
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,

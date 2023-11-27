@@ -8,13 +8,14 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class BreakingNewsPagingSource(
-    private val newsAPI: NewsAPI
+    private val newsAPI: NewsAPI,
+    private val apiKey: String
 ) : PagingSource<Int, Article>() {
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? = null
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val page = params.key ?: 1
         return try {
-            val response = newsAPI.getBreakingNews(page = page).articles
+            val response = newsAPI.getBreakingNews(page = page, apiKey = apiKey).articles
             LoadResult.Page(
                 response,
                 prevKey = if (page == 1) null else page - 1,

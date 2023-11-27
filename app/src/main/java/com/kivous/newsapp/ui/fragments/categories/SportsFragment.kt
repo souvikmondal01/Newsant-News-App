@@ -17,7 +17,7 @@ import com.kivous.newsapp.ui.adapters.NewsAdapter
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
 import com.kivous.newsapp.utils.Common.gone
 import com.kivous.newsapp.utils.Common.visible
-import com.kivous.newsapp.utils.Constants
+import com.kivous.newsapp.utils.Constants.SPORTS
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -72,8 +72,11 @@ class SportsFragment : Fragment() {
 
     private fun setDataToAdapter() {
         lifecycleScope.launch {
-            viewModel.getCategoryNews(Constants.SPORTS).distinctUntilChanged().collectLatest {
-                adapter.submitData(lifecycle, it)
+            viewModel.apiKey.collectLatest { apiKey ->
+                viewModel.getCategoryNews(SPORTS, apiKey).distinctUntilChanged()
+                    .collectLatest {
+                        adapter.submitData(lifecycle, it)
+                    }
             }
         }
     }

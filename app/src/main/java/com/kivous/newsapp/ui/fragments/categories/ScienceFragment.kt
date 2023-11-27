@@ -17,7 +17,7 @@ import com.kivous.newsapp.ui.adapters.NewsAdapter
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
 import com.kivous.newsapp.utils.Common.gone
 import com.kivous.newsapp.utils.Common.visible
-import com.kivous.newsapp.utils.Constants
+import com.kivous.newsapp.utils.Constants.SCIENCE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -72,8 +72,11 @@ class ScienceFragment : Fragment() {
 
     private fun setDataToAdapter() {
         lifecycleScope.launch {
-            viewModel.getCategoryNews(Constants.SCIENCE).distinctUntilChanged().collectLatest {
-                adapter.submitData(lifecycle, it)
+            viewModel.apiKey.collectLatest { apiKey ->
+                viewModel.getCategoryNews(SCIENCE, apiKey).distinctUntilChanged()
+                    .collectLatest {
+                        adapter.submitData(lifecycle, it)
+                    }
             }
         }
     }

@@ -9,14 +9,19 @@ import java.io.IOException
 
 class SearchNewsPagingSource(
     private val newsAPI: NewsAPI,
-    private val searchQuery: String
+    private val searchQuery: String,
+    private val apiKey: String
 ) : PagingSource<Int, Article>() {
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val page = params.key ?: 1
         return try {
-            val response = newsAPI.getSearchNews(searchQuery = searchQuery, page = page).articles
+            val response = newsAPI.getSearchNews(
+                searchQuery = searchQuery,
+                page = page,
+                apiKey = apiKey
+            ).articles
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,

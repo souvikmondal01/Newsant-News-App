@@ -58,27 +58,29 @@ class SearchFragment : Fragment() {
             clearEdittext(etSearch, cvClear)
         }
 
-        setUpRecyclerView()
-        checkDataLoadState()
-        whenNoInternet()
-
-        binding.etSearch.addTextChangedListener { editable ->
-            adapter.submitData(lifecycle, PagingData.empty())
-            editable?.let {
-                if (editable.toString().isNotEmpty()) {
-                    lifecycleScope.launch {
-                        viewModel.getSearchNews(editable.trim().toString()).distinctUntilChanged()
-                            .collectLatest {
-                                adapter.submitData(lifecycle, it)
-                            }
-                    }
-                } else {
-                    adapter.submitData(lifecycle, PagingData.empty()).also {
+        lifecycleScope.launch {
+            viewModel.apiKey.collectLatest { apiKey ->
+                binding.etSearch.addTextChangedListener { editable ->
+                    adapter.submitData(lifecycle, PagingData.empty())
+                    if (editable.toString().trim().isNotEmpty()) {
+                        binding.progressBar.visible()
+                        lifecycleScope.launch {
+                            viewModel.getSearchNews(editable.toString().trim(), apiKey)
+                                .distinctUntilChanged().collectLatest {
+                                    adapter.submitData(lifecycle, it)
+                                }
+                        }
+                    } else {
+                        adapter.submitData(lifecycle, PagingData.empty())
                         binding.progressBar.gone()
                     }
                 }
             }
         }
+
+        setUpRecyclerView()
+        checkDataLoadState()
+        whenNoInternet()
     }
 
     override fun onStop() {

@@ -1,12 +1,10 @@
 package com.kivous.newsapp.data.network
 
 import com.kivous.newsapp.data.model.NewsResponse
-import com.kivous.newsapp.utils.Constants.API_KEY
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NewsAPI {
-
     @GET("v2/top-headlines")
     suspend fun getBreakingNews(
         @Query("country")
@@ -14,7 +12,7 @@ interface NewsAPI {
         @Query("page")
         page: Int,
         @Query("apiKey")
-        apiKey: String = API_KEY
+        apiKey: String
     ): NewsResponse
 
     @GET("v2/everything")
@@ -28,7 +26,7 @@ interface NewsAPI {
         @Query("sortBy")
         sortBy: String = "popularity",
         @Query("apiKey")
-        apiKey: String = API_KEY
+        apiKey: String
     ): NewsResponse
 
 
@@ -41,7 +39,7 @@ interface NewsAPI {
         @Query("category")
         category: String,
         @Query("apiKey")
-        apiKey: String = API_KEY
+        apiKey: String
     ): NewsResponse
 
 }
