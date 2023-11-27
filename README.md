@@ -2,14 +2,6 @@
 An Android news application implemented using the MVVM pattern, Retrofit2, Paging3, Dagger-Hilt, Flow, ViewModel, Coroutines, Room, Navigation Components, View Binding and some other libraries from the [Android Jetpack] . Newsant app fetches data from the [NewsAPI] .
 
 
-## Architecture
-The architecture of this application relies and complies with the following points below:
-* A single-activity architecture, using the [Navigation Components](https://developer.android.com/guide/navigation) to manage fragment operations.
-* Pattern [Model-View-ViewModel](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)(MVVM) which facilitates a separation of development of the graphical user interface.
-* [Android architecture components](https://developer.android.com/topic/libraries/architecture/) which help to keep the application robust, testable, and maintainable.
-
-<p align="center"><a><img src="https://raw.githubusercontent.com/mayokunthefirst/Instant-Weather/master/media/final-architecture.png" width="700"></a></p>
-
 ## Technologies used:
 
 * [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
@@ -23,6 +15,7 @@ The architecture of this application relies and complies with the following poin
 * [Room](https://developer.android.com/topic/libraries/architecture/room) persistence library which provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
 * [Paging Library](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) helps you load and display small chunks of data at a time.
 * [Coil](https://coil-kt.github.io/coil/) - An image loading library for Android backed by Kotlin Coroutines.
+* [Firebase](https://firebase.google.com/) - is a platform developed by Google for creating mobile and web applications. 
 
 ## App Icon 📱
 <img src="https://github.com/mondal-souvik/git/assets/100204863/55c7cccb-0c86-4812-b552-99e374e8a882" width="80px" hspace="40">
@@ -56,7 +49,7 @@ The architecture of this application relies and complies with the following poin
 <img src="https://github.com/mondal-souvik/git/assets/100204863/49cd24da-976f-486a-80e7-55b8202a90a9" width="220" hspace="10">
 
 ## Download APK
-<img src="https://github.com/mondal-souvik/git/assets/100204863/af8803b4-2434-4678-8fbd-5cf4b32dcd31" width="110px" hspace="10">
+<img src="https://github.com/mondal-souvik/test_readme/assets/100204863/1c54a26c-1a3b-4f2d-8fbb-209943e1d6d8" width="110px" hspace="10">
 
 [Android Jetpack]: https://developer.android.com/jetpack
 [NewsAPI]: https://newsapi.org/
