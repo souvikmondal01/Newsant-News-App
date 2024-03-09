@@ -1,18 +1,95 @@
 package com.kivous.newsapp.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.kivous.newsapp.R
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import com.kivous.newsapp.check_network_connectivity.NetworkViewModel
+import com.kivous.newsapp.databinding.FragmentScrollBinding
+import com.kivous.newsapp.ui.adapters.ScrollNewsAdapter
+import com.kivous.newsapp.ui.viewmodels.NewsViewModel
+import com.kivous.newsapp.utils.Constants.GENERAL
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class ScrollFragment : Fragment() {
+    private var _binding: FragmentScrollBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: NewsViewModel by viewModels()
+    private val networkViewModel: NetworkViewModel by viewModels()
+
+    @Inject
+    lateinit var adapter: ScrollNewsAdapter
+
+    @Inject
+    lateinit var apiKey: Deferred<String>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_scroll, container, false)
+    ): View {
+        _binding = FragmentScrollBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeNetworkConnectionAndHandleUI()
+        setUpViewPager()
+        setDataToAdapter()
+        observeAdapterLoadStateAndHandleUI()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun setUpViewPager() {
+        binding.viewPager.adapter = adapter
+    }
+
+    private fun setDataToAdapter() {
+        lifecycleScope.launch{
+            viewModel.getScrollNews(GENERAL, apiKey.await()).collectLatest {
+                adapter.submitData(lifecycle, it)
+            }
+        }
+    }
+
+    private fun observeAdapterLoadStateAndHandleUI() {
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                binding.apply {
+                    progressBar.isVisible = loadStates.refresh is LoadState.Loading
+                    viewPager.isVisible = loadStates.refresh !is LoadState.Loading
+                    cvRefresh.isVisible = loadStates.refresh is LoadState.Error
+                }
+            }
+        }
+    }
+
+    private fun observeNetworkConnectionAndHandleUI() {
+        lifecycleScope.launch {
+            networkViewModel.isConnected.collectLatest { isConnected ->
+                binding.ivWarning.isVisible = !isConnected
+                binding.tvNoInternet.isVisible = !isConnected
+                if (isConnected) {
+                    adapter.retry()
+                }
+            }
+        }
     }
 
 }

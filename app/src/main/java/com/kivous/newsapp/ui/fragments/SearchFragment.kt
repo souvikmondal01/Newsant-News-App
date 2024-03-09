@@ -1,43 +1,51 @@
 package com.kivous.newsapp.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.kivous.newsapp.R
-import com.kivous.newsapp.adapters.NewsAdapter
-import com.kivous.newsapp.adapters.NewsListener
-import com.kivous.newsapp.common.Constants
-import com.kivous.newsapp.common.Resource
-import com.kivous.newsapp.common.Utils.gone
-import com.kivous.newsapp.common.Utils.invisible
-import com.kivous.newsapp.common.Utils.visible
+import com.kivous.newsapp.check_network_connectivity.NetworkViewModel
+import com.kivous.newsapp.data.model.Article
 import com.kivous.newsapp.databinding.FragmentSearchBinding
-import com.kivous.newsapp.db.ArticleDatabase
-import com.kivous.newsapp.model.Article
-import com.kivous.newsapp.repositories.NewsRepository
-import com.kivous.newsapp.ui.activities.MainActivity
+import com.kivous.newsapp.ui.adapters.SearchLoadingStateAdapter
+import com.kivous.newsapp.ui.adapters.SearchNewsAdapter
 import com.kivous.newsapp.ui.viewmodels.NewsViewModel
-import com.kivous.newsapp.ui.viewmodels.NewsViewModelProviderFactory
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
+import com.kivous.newsapp.utils.Common.clearEdittext
+import com.kivous.newsapp.utils.Common.gone
+import com.kivous.newsapp.utils.Common.showKeyboard
+import com.kivous.newsapp.utils.Common.visible
+import com.kivous.newsapp.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchFragment : Fragment(), NewsListener {
+@AndroidEntryPoint
+class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: NewsViewModel
-    private lateinit var adapter: NewsAdapter
+    private val viewModel: NewsViewModel by viewModels()
+    private val networkViewModel: NetworkViewModel by viewModels()
+    private lateinit var adapter: SearchNewsAdapter
+
+    @Inject
+    lateinit var apiKey: Deferred<String>
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
@@ -46,70 +54,95 @@ class SearchFragment : Fragment(), NewsListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.etSearch.requestFocus()
-        val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
-        val viewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
-        viewModel =
-            ViewModelProvider(this, viewModelProviderFactory)[NewsViewModel::class.java]
+        adapter = SearchNewsAdapter(::onNewsClicked)
 
-        var job: Job? = null
-        binding.etSearch.addTextChangedListener { editable ->
-            job?.cancel()
-            job = MainScope().launch {
-                delay(500L)
-                editable?.let {
-                    if (editable.toString().isNotEmpty()) {
-                        viewModel.searchForNews(editable.toString())
-                    }
-                }
+        binding.apply {
+            showKeyboard(etSearch)
+            cvBackArrow.setOnClickListener {
+                findNavController().navigateUp()
             }
+            etSearch.clearEdittext(cvClear)
         }
 
-
-        viewModel.searchNews.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Success -> {
-                    binding.pb.gone()
-                    response.data?.let { newsResponse ->
-                        adapter.differ.submitList(newsResponse.articles)
-                    }
-                }
-
-                is Resource.Error -> {
-                    binding.pb.gone()
-                    response.message?.let {
-                        Log.d("ERR", "An error occurred: $it")
-                    }
-                }
-
-                is Resource.Loading -> {
-                    binding.pb.visible()
-                }
-            }
-        }
-
-        adapter = NewsAdapter(this)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        observeNetworkConnectionAndHandleUI()
+        setUpRecyclerView()
+        setDataToAdapter()
+        observeAdapterLoadStateAndHandleUI()
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
-
-    override fun onArticleClick(holder: NewsAdapter.ViewHolder, article: Article) {
-//        val bundle = Bundle().apply {
-//            putSerializable(Constants.KEY, article)
-//        }
-//        findNavController().navigate(
-//            R.id.action_searchFragment_to_articleFragment, bundle
-//        )
+    private fun onNewsClicked(article: Article) {
+        val bundle = bundleOf(Constants.KEY to Gson().toJson(article))
+        findNavController().navigate(R.id.action_searchFragment_to_webViewFragment, bundle)
     }
 
-    override fun onSaveClick(article: Article) {
+    private fun setUpRecyclerView() {
+        binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = SearchLoadingStateAdapter(), footer = SearchLoadingStateAdapter()
+        )
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setDataToAdapter() {
+        binding.etSearch.addTextChangedListener { editable ->
+            adapter.submitData(lifecycle, PagingData.empty())
+
+            val queryString = editable.toString().trim()
+
+            if (queryString.isNotEmpty()) {
+                binding.progressBar.visible()
+                lifecycleScope.launch {
+                    viewModel.getSearchNews(queryString, apiKey.await()).collectLatest {
+                        adapter.submitData(lifecycle, it)
+                    }
+                }
+            } else {
+                adapter.submitData(lifecycle, PagingData.empty())
+                binding.progressBar.gone()
+            }
+
+        }
+    }
+
+    private fun observeAdapterLoadStateAndHandleUI() {
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+
+                when (loadStates.refresh) {
+                    is LoadState.Loading -> {
+                        binding.progressBar.visible()
+                    }
+
+                    is LoadState.NotLoading -> {
+                        binding.progressBar.gone()
+                        binding.recyclerView.visible()
+                    }
+
+                    is LoadState.Error -> {
+                        binding.progressBar.gone()
+                        binding.recyclerView.gone()
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    private fun observeNetworkConnectionAndHandleUI() {
+        lifecycleScope.launch {
+            networkViewModel.isConnected.collectLatest { isConnected ->
+                binding.viewNetworkError.isVisible = !isConnected
+                if (isConnected) {
+                    adapter.retry()
+                }
+            }
+        }
     }
 
 }

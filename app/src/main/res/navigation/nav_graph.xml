@@ -9,19 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.kivous.newsapp.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_favouriteFragment"
-            app:destination="@id/favouriteFragment" />
+            android:id="@+id/action_homeFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/accountFragment"
-        android:name="com.kivous.newsapp.ui.fragments.AccountFragment"
-        android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/scrollFragment"
         android:name="com.kivous.newsapp.ui.fragments.ScrollFragment"
@@ -31,27 +23,32 @@
         android:id="@+id/searchFragment"
         android:name="com.kivous.newsapp.ui.fragments.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+            android:id="@+id/action_searchFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.kivous.newsapp.ui.fragments.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" >
+        tools:layout="@layout/fragment_favourite">
         <action
-            android:id="@+id/action_favouriteFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+            android:id="@+id/action_favouriteFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
     <fragment
-        android:id="@+id/articleFragment"
-        android:name="com.kivous.newsapp.ui.fragments.ArticleFragment"
+        android:id="@+id/webViewFragment"
+        android:name="com.kivous.newsapp.ui.fragments.WebViewFragment"
         android:label="fragment_article"
-        tools:layout="@layout/fragment_article" >
-        <argument
-            android:name="article"
-            app:argType="com.kivous.newsapp.model.Article" />
+        tools:layout="@layout/fragment_web_view" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.kivous.newsapp.ui.fragments.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category">
+        <action
+            android:id="@+id/action_categoryFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
 </navigation>
