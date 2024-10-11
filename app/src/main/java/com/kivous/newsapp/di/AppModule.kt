@@ -50,8 +50,11 @@ object AppModule {
     @Singleton
     @Provides
     fun providesApiKey(): Deferred<String> = CoroutineScope(Dispatchers.IO).async {
+
         Firebase.firestore.collection("newsant")
             .document("api_key").get().await().get("key") as String
+
     }
+
 
 }

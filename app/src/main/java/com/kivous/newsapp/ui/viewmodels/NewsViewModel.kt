@@ -49,5 +49,4 @@ class NewsViewModel
         newsRepository.getSearchNewsFlow(searchQuery = searchQuery, apiKey = apiKey)
             .cachedIn(viewModelScope)
 
-
 }

@@ -25,7 +25,7 @@ class NewsPagingSource(
 
             NewsType.CATEGORY_NEWS -> {
                 newsAPI.getNewsByCategory(
-                    page = page, apiKey = apiKey, category = category, countryCode = "in"
+                    page = page, apiKey = apiKey, category = category, countryCode = "us"
                 ).articles
             }
 

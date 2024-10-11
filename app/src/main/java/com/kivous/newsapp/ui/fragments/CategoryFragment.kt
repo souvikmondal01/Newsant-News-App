@@ -31,6 +31,7 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TabLayoutAdapter(childFragmentManager, lifecycle)
+
         binding.tabLayout.apply {
             addTab(binding.tabLayout.newTab().setText("Business"))
             addTab(binding.tabLayout.newTab().setText("Entertainment"))
