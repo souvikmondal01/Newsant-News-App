@@ -18,38 +18,20 @@ An Android news application implemented using the MVVM pattern, Retrofit2, Pagin
 * [Firebase](https://firebase.google.com/) - is a platform developed by Google for creating mobile and web applications. 
 
 ## App Icon 📱
-<img src="https://github.com/mondal-souvik/git/assets/100204863/55c7cccb-0c86-4812-b552-99e374e8a882" width="80px" hspace="40">
+<img src="images/icon.png" width="80px" hspace="40">
 
 ## Some Screenshots
-
-**Dark Theme :**
-
-<img src="https://github.com/mondal-souvik/git/assets/100204863/6e5da5cf-087e-4ef6-acaf-bcb8753a7bb3" width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/74bc929b-0984-41c0-a171-7f6699602158"  width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/f53b49e7-532c-4f46-8c97-68fab59c1ba4"  width="220" hspace="10">
-<br/>
-<br/>
-<img src="https://github.com/mondal-souvik/git/assets/100204863/241f3e5f-cc2a-4c69-b760-bc0ae994568e"  width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/b24d8860-da7b-4b8f-acd8-b02c7865be42"  width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/0d65a227-0fda-422e-a75b-b34d7f6d380f"  width="220" hspace="10">
-
-<br/>
-<br/>
-<br/>
-
-**Light Theme :**
-
-<img src="https://github.com/mondal-souvik/git/assets/100204863/ec5066be-a537-4c7e-bbcd-6786c51c1334" height="470" width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/ceb3790d-9af6-4451-a2de-7df0a62632b3" height="470" width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/c9a60098-238c-47f8-8583-28671a4ffded" height="470" width="220" hspace="5">
-<br/>
-<br/>
-<img src="https://github.com/mondal-souvik/git/assets/100204863/be311c0c-dd16-454b-b457-60067980ca0a" width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/c036db90-4d80-4a21-adf4-b379275a3989" width="220" hspace="10">
-<img src="https://github.com/mondal-souvik/git/assets/100204863/49cd24da-976f-486a-80e7-55b8202a90a9" width="220" hspace="10">
+<p>
+  <img src="images/ss_1.jpg" width="220" hspace="10">
+  <img src="images/ss_2.jpg" width="220" hspace="10">
+</p>
+<p>
+  <img src="images/ss_3.jpg" width="220" hspace="10">
+  <img src="images/ss_4.jpg" width="220" hspace="10">
+</p>
 
 ## Download APK
-<img src="https://github.com/user-attachments/assets/efc953af-a7ee-46b7-8606-954ddca14b08" width="110px" hspace="10">
+<img src="images/qr.jpeg" width="110px" hspace="10">
 
 [Android Jetpack]: https://developer.android.com/jetpack
 [NewsAPI]: https://newsapi.org/
