@@ -49,7 +49,7 @@ An Android news application implemented using the MVVM pattern, Retrofit2, Pagin
 <img src="https://github.com/mondal-souvik/git/assets/100204863/49cd24da-976f-486a-80e7-55b8202a90a9" width="220" hspace="10">
 
 ## Download APK
-<img src="https://github.com/mondal-souvik/test_readme/assets/100204863/621e6a51-41c1-40a9-a1e9-c2943ea1f89f" width="110px" hspace="10">
+<img src="https://github.com/user-attachments/assets/efc953af-a7ee-46b7-8606-954ddca14b08" width="110px" hspace="10">
 
 [Android Jetpack]: https://developer.android.com/jetpack
 [NewsAPI]: https://newsapi.org/
