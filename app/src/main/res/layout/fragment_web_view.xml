@@ -12,18 +12,16 @@
         android:layout_height="48dp"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_newsant"
+    <ImageView
+        android:id="@+id/iv_logo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nature_beauty"
-        android:text="@string/app_name"
-        android:textColor="?attr/colorOnSecondaryContainer"
-        android:textSize="18sp"
+        android:layout_height="16dp"
+        android:contentDescription="@string/app_logo"
+        android:src="@drawable/neutral"
         app:layout_constraintBottom_toBottomOf="@id/action_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/action_bar" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_back_arrow"
@@ -40,41 +38,38 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/back_arrow"
             android:padding="8dp"
             android:src="@drawable/arrow_back" />
     </com.google.android.material.card.MaterialCardView>
 
-    <View
-        android:id="@+id/line_top"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider_top"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:alpha=".25"
-        android:background="?attr/colorOnSecondaryContainer"
         app:layout_constraintTop_toBottomOf="@id/action_bar" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/colorSurface"
-        app:layout_constraintBottom_toTopOf="@id/line_bottom"
-        app:layout_constraintTop_toBottomOf="@id/line_top" />
+        app:layout_constraintBottom_toTopOf="@id/divider_bottom"
+        app:layout_constraintTop_toBottomOf="@id/divider_top" />
 
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/line_bottom"
-        app:layout_constraintTop_toBottomOf="@id/line_top" />
+        app:layout_constraintBottom_toTopOf="@id/divider_bottom"
+        app:layout_constraintTop_toBottomOf="@id/divider_top" />
 
-    <View
-        android:id="@+id/line_bottom"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider_bottom"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="56dp"
-        android:alpha=".25"
-        android:background="?attr/colorOnSecondaryContainer"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
@@ -87,13 +82,15 @@
         app:cardCornerRadius="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line_bottom"
+        app:layout_constraintTop_toBottomOf="@id/divider_bottom"
         app:strokeWidth="0dp">
 
         <ImageView
             android:id="@+id/iv_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha=".75"
+            android:contentDescription="@string/share_article"
             android:padding="8dp"
             android:src="@drawable/share" />
 
@@ -109,13 +106,15 @@
         app:cardCornerRadius="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cv_share"
-        app:layout_constraintTop_toBottomOf="@id/line_bottom"
+        app:layout_constraintTop_toBottomOf="@id/divider_bottom"
         app:strokeWidth="0dp">
 
         <ImageView
             android:id="@+id/iv_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha=".75"
+            android:contentDescription="@string/save_article"
             android:padding="8dp"
             android:src="@drawable/bookmark_border" />
     </com.google.android.material.card.MaterialCardView>
@@ -129,6 +128,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

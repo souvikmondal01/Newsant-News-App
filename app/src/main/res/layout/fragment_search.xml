@@ -27,6 +27,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/back_arrow"
             android:padding="8dp"
             android:src="@drawable/arrow_back" />
     </com.google.android.material.card.MaterialCardView>
@@ -36,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="Search..."
+        android:hint="@string/search"
         android:inputType="text"
         android:maxLines="1"
         android:paddingHorizontal="16dp"
@@ -46,12 +47,10 @@
         app:layout_constraintStart_toEndOf="@id/cv_back_arrow"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/line"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:alpha=".25"
-        android:background="?attr/colorOnSurfaceVariant"
         app:layout_constraintTop_toBottomOf="@id/action_bar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,13 +58,14 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/line">
+        app:layout_constraintTop_toBottomOf="@id/divider">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@null"
             android:src="@drawable/cloud_off"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_network_error"
@@ -75,7 +75,7 @@
             android:id="@+id/tv_network_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/inter_medium"
             android:gravity="center"
             android:text="@string/no_internet_connection"
             android:textColor="?attr/colorError"
@@ -95,7 +95,7 @@
         android:backgroundTint="@android:color/transparent"
         android:visibility="gone"
         app:cardCornerRadius="120dp"
-        app:layout_constraintBottom_toTopOf="@id/line"
+        app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeWidth="0dp">
@@ -103,6 +103,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/clear_input_text"
             android:padding="8dp"
             android:src="@drawable/clear" />
     </com.google.android.material.card.MaterialCardView>

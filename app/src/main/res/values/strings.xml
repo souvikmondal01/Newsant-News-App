@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">Newsant</string>
+    <string name="app_name">Neutral</string>
     <string name="no_internet_connection">No internet connection</string>
-    <string name="no_article_saved">No article saved</string>XL
+    <string name="no_article_saved">No article saved</string>
+    <string name="app_logo">App logo</string>
+    <string name="back_arrow">Back arrow</string>
+    <string name="reload">Reload</string>
+    <string name="article_thumbnail">Article thumbnail</string>
+    <string name="save_article">Save article</string>
+    <string name="share_article">Share article</string>
+    <string name="search">Search...</string>
+    <string name="clear_input_text">Clear input text</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimaryDark">
+    android:background="?attr/android:colorBackground">
 
 
     <com.google.android.material.card.MaterialCardView
@@ -23,6 +23,7 @@
             android:id="@+id/iv_article"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/article_thumbnail"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="?attr/colorSurface" />
@@ -34,8 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
+        android:fontFamily="@font/inter_medium"
         android:maxLines="2"
-        android:textColor="?attr/colorOnSecondaryContainer"
+        android:textColor="?attr/colorOnBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/gl"
         app:layout_constraintTop_toTopOf="@id/card_view"
@@ -48,9 +50,9 @@
         android:layout_marginEnd="16dp"
         android:alpha=".75"
         android:ellipsize="end"
-        android:fontFamily="@font/georgia"
+        android:fontFamily="@font/georgiai"
         android:maxLines="1"
-        android:textColor="?attr/colorOnSecondaryContainer"
+        android:textColor="?attr/colorOnBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/gl"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
@@ -62,23 +64,21 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:alpha=".75"
-        android:textColor="?attr/colorOnSecondaryContainer"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/gl"
         app:layout_constraintTop_toBottomOf="@id/tv_source"
         tools:text="@string/app_name" />
 
-    <View
-        android:id="@+id/line"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:alpha=".25"
-        android:background="?attr/colorOnSurfaceVariant"
         app:layout_constraintTop_toBottomOf="@id/card_view" />
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_save"
@@ -89,7 +89,7 @@
         android:backgroundTint="@android:color/transparent"
         android:visibility="gone"
         app:cardCornerRadius="120dp"
-        app:layout_constraintBottom_toTopOf="@id/line"
+        app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:strokeWidth="0dp">
 
@@ -97,9 +97,11 @@
             android:id="@+id/iv_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha=".75"
+            android:contentDescription="@string/save_article"
             android:padding="8dp"
             android:src="@drawable/bookmark"
-            app:layout_constraintBottom_toTopOf="@id/line"
+            app:layout_constraintBottom_toTopOf="@id/divider"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </com.google.android.material.card.MaterialCardView>

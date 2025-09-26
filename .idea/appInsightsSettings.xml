@@ -8,8 +8,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.kivous.newsapp" />
-                  <option name="mobileSdkAppId" value="1:542888243025:android:987f24d413e7427cf52d70" />
+                  <option name="appId" value="com.souvikmondal01.neutral" />
+                  <option name="mobileSdkAppId" value="1:542888243025:android:0650ce555c39cde7f52d70" />
                   <option name="projectId" value="oneproject-op" />
                   <option name="projectNumber" value="542888243025" />
                 </ConnectionSetting>
